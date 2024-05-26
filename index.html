@@ -50,6 +50,9 @@
 
         <label for="monthlyRent">Expected Monthly Rent ($):</label>
         <input type="number" id="monthlyRent" placeholder="Enter expected monthly rent">
+        
+        <label for="Appreciation value">Appreciation rate (%):</label>
+        <input type="number" id="Appreciation value" placeholder="Enter Appreciation rate">
 
         <button onclick="analyzeProperty()">Analyze Property</button>
 
@@ -63,6 +66,7 @@
             const loanTerm = parseInt(document.getElementById('loanTerm').value);
             const interestRate = parseFloat(document.getElementById('interestRate').value) / 100;
             const monthlyRent = parseFloat(document.getElementById('monthlyRent').value);
+            const appreciationvalue=parseFloat(document.getElementById('appreciation value').value);
 
             const loanAmount = propertyPrice * (1 - downPayment);
             const monthlyInterestRate = interestRate / 12;
