@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Analysis Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        input {
+            margin-bottom: 10px;
+            padding: 8px;
+            width: 100%;
+        }
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .results {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Property Analysis Tool</h1>
+        <label for="propertyPrice">Property Price ($):</label>
+        <input type="number" id="propertyPrice" placeholder="Enter property price">
+
+        <label for="downPayment">Down Payment (%):</label>
+        <input type="number" id="downPayment" placeholder="Enter down payment percentage">
+
+        <label for="loanTerm">Loan Term (years):</label>
+        <input type="number" id="loanTerm" placeholder="Enter loan term">
+
+        <label for="interestRate">Annual Interest Rate (%):</label>
+        <input type="number" id="interestRate" step="0.01" placeholder="Enter annual interest rate">
+
+        <label for="monthlyRent">Expected Monthly Rent ($):</label>
+        <input type="number" id="monthlyRent" placeholder="Enter expected monthly rent">
+
+        <button onclick="analyzeProperty()">Analyze Property</button>
+
+        <div class="results" id="results"></div>
+    </div>
+
+    <script>
+        function analyzeProperty() {
+            const propertyPrice = parseFloat(document.getElementById('propertyPrice').value);
+            const downPayment = parseFloat(document.getElementById('downPayment').value) / 100;
+            const loanTerm = parseInt(document.getElementById('loanTerm').value);
+            const interestRate = parseFloat(document.getElementById('interestRate').value) / 100;
+            const monthlyRent = parseFloat(document.getElementById('monthlyRent').value);
+
+            const loanAmount = propertyPrice * (1 - downPayment);
+            const monthlyInterestRate = interestRate / 12;
+            const numberOfPayments = loanTerm * 12;
+
+            const monthlyMortgagePayment = (loanAmount * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -numberOfPayments));
+            const totalCost = downPayment * propertyPrice + monthlyMortgagePayment * numberOfPayments;
+            const annualIncome = monthlyRent * 12;
+            const roi = (annualIncome / totalCost) * 100;
+
+            document.getElementById('results').innerHTML = `
+                <h2>Analysis Results</h2>
+                <p><strong>Loan Amount:</strong> $${loanAmount.toFixed(2)}</p>
+                <p><strong>Monthly Mortgage Payment:</strong> $${monthlyMortgagePayment.toFixed(2)}</p>
+                <p><strong>Total Cost (over ${loanTerm} years):</strong> $${totalCost.toFixed(2)}</p>
+                <p><strong>Annual Income:</strong> $${annualIncome.toFixed(2)}</p>
+                <p><strong>ROI:</strong> ${roi.toFixed(2)}%</p>
+            `;
+        }
+    </script>
+</body>
+</html>
